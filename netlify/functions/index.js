@@ -7,6 +7,19 @@ exports.handler = async (event, context) => {
     fetch = module.default;
   }
 
+  // Gestisci la richiesta preflight (OPTIONS)
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization', // Consenti header specifici
+        'Access-Control-Allow-Methods': 'POST, OPTIONS', // Consenti metodi specifici
+      },
+      body: '', // Nessun corpo nella risposta preflight
+    };
+  }
+
   try {
     // Verifica che la richiesta sia di tipo POST
     if (event.httpMethod !== 'POST') {
@@ -14,7 +27,7 @@ exports.handler = async (event, context) => {
         statusCode: 405,
         headers: {
           'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
-          'Access-Control-Allow-Headers': 'Content-Type', // Consenti header specifici
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization', // Consenti header specifici
         },
         body: JSON.stringify({ error: 'Metodo non consentito' }),
       };
@@ -43,7 +56,7 @@ exports.handler = async (event, context) => {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
-        'Access-Control-Allow-Headers': 'Content-Type', // Consenti header specifici
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization', // Consenti header specifici
       },
       body: JSON.stringify({ message: 'Dati inviati correttamente a NodeRED' }),
     };
@@ -53,7 +66,7 @@ exports.handler = async (event, context) => {
       statusCode: 500,
       headers: {
         'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
-        'Access-Control-Allow-Headers': 'Content-Type', // Consenti header specifici
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization', // Consenti header specifici
       },
       body: JSON.stringify({ error: error.message }),
     };
