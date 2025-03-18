@@ -33,7 +33,7 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Ottieni i dati inviati dal form
+    // Ottieni i dati inviati dal form HubSpot
     const data = JSON.parse(event.body);
 
     // Invia i dati al webhook di NodeRED
@@ -51,14 +51,14 @@ exports.handler = async (event, context) => {
       throw new Error('Errore durante l\'invio dei dati a NodeRED');
     }
 
-    // Risposta di successo
+    // Risposta di successo per HubSpot
     return {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
         'Access-Control-Allow-Headers': 'Content-Type, Authorization', // Consenti header specifici
       },
-      body: JSON.stringify({ message: 'Dati inviati correttamente a NodeRED' }),
+      body: JSON.stringify({ success: true, message: 'Dati inviati correttamente a NodeRED' }),
     };
   } catch (error) {
     // Gestione degli errori
@@ -68,7 +68,7 @@ exports.handler = async (event, context) => {
         'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
         'Access-Control-Allow-Headers': 'Content-Type, Authorization', // Consenti header specifici
       },
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ success: false, error: error.message }),
     };
   }
 };
