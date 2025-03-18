@@ -13,8 +13,8 @@ exports.handler = async (event, context) => {
     // Ottieni i dati inviati dal form HubSpot
     const data = JSON.parse(event.body);
 
-    // Definisci il token da inserire nell'header
-    const token = 'oc$b2lQWTytHPmomwSrXW%QOUBT5105kkpsktPsQts@1aSFhOpS3j7ol4mXLpsye'; // Sostituisci con il tuo token
+    // Leggi il token dalla variabile d'ambiente
+    const token = process.env.AUTH_TOKEN; // Usa la variabile d'ambiente
 
     // Invia i dati al webhook di NodeRED
     const response = await fetch('https://mylab.alcanta.it/contatti-convegno', {
