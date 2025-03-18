@@ -12,11 +12,15 @@ exports.handler = async (event, context) => {
     if (event.httpMethod !== 'POST') {
       return {
         statusCode: 405,
+        headers: {
+          'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
+          'Access-Control-Allow-Headers': 'Content-Type', // Consenti header specifici
+        },
         body: JSON.stringify({ error: 'Metodo non consentito' }),
       };
     }
 
-    // Ottieni i dati inviati dal form HubSpot
+    // Ottieni i dati inviati dal form
     const data = JSON.parse(event.body);
 
     // Invia i dati al webhook di NodeRED
@@ -37,12 +41,20 @@ exports.handler = async (event, context) => {
     // Risposta di successo
     return {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
+        'Access-Control-Allow-Headers': 'Content-Type', // Consenti header specifici
+      },
       body: JSON.stringify({ message: 'Dati inviati correttamente a NodeRED' }),
     };
   } catch (error) {
     // Gestione degli errori
     return {
       statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*', // Consenti tutte le origini
+        'Access-Control-Allow-Headers': 'Content-Type', // Consenti header specifici
+      },
       body: JSON.stringify({ error: error.message }),
     };
   }
