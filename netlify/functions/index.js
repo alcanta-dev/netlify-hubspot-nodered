@@ -35,9 +35,22 @@ exports.handler = async (event, context) => {
 
     // Ottieni i dati inviati dal form HubSpot
     const data = JSON.parse(event.body);
+    const type = data.type || 'default';
+
+
+    // Imposta il webhook di destinazione in base al tipo
+    let webhookUrl;
+    if (type === 'confirm') {
+      webhookUrl = 'https://mylab.alcanta.it/confirm';
+    } else {
+      webhookUrl = 'https://mylab.alcanta.it/contatti-convegno';
+    }
+
+    // Aggiungi il token di autenticazione
+    data.token = process.env.AUTH_TOKEN;
 
     // Invia i dati al webhook di NodeRED
-    const response = await fetch('https://mylab.alcanta.it/contatti-convegno', {
+    const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
